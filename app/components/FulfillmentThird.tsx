@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 import data from "../data/fulfillmentThird.json";
 
 export default function FulfillmentThird() {
@@ -55,23 +56,22 @@ export default function FulfillmentThird() {
         </div>
 
         {/* Columna derecha: Imagen */}
-        <div className="flex items-center justify-center mt-8 md:mt-0">
-          <motion.img
-            src={imageUrl}
-            alt={title}
-            className="
-              w-full 
-              md:w-full
-              md:h-full
-              lg:w-full
-              object-cover 
-              object-top
-              md:rounded-xl
-            "
+        <div className="flex items-center justify-center mt-8 md:mt-0 relative w-full h-[400px] md:h-[600px]">
+          <motion.div
+            className="relative w-full h-full"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: step.length * 0.2 }}
-          />
+          >
+            <Image
+              src={imageUrl || '/placeholder.png'}
+              alt={title}
+              fill
+              className="object-cover object-top md:rounded-xl"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          </motion.div>
         </div>
       </div>
     </section>

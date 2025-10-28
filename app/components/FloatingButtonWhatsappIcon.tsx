@@ -16,14 +16,12 @@ export default function FloatingButton({
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     
     // Registrar conversión de Google Ads
-    if (typeof window !== 'undefined' && 'gtag' in window) {
+    if (typeof window !== 'undefined' && window.gtag) {
       const callback = () => {
-        globalThis.open(whatsappUrl, '_blank');
+        window.open(whatsappUrl, '_blank');
       };
       
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const gtag = (window as any).gtag;
-      gtag('event', 'conversion', {
+      window.gtag('event', 'conversion', {
         'send_to': 'AW-17493174136/a8wyCJrc5LQbEPjOspVB',
         'value': 1.0,
         'currency': 'USD',
@@ -36,7 +34,7 @@ export default function FloatingButton({
       
     } else {
       console.warn('⚠️ gtag no disponible. Abriendo WhatsApp sin tracking.');
-      globalThis.open(whatsappUrl, '_blank');
+      window.open(whatsappUrl, '_blank');
     }
   };
 

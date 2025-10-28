@@ -87,7 +87,7 @@ export default function Form() {
   // 📱 Mobile Layout
   if (!isDesktop) {
     return (
-      <section className="px-4 md:px-6 pt-18 md:pt-0 h-screen md:flex md:items-center md:justify-center">
+      <section id="form" className="px-4 md:px-6 pt-18 md:pt-0 h-screen md:flex md:items-center md:justify-center">
         <div className="w-full max-w-6xl overflow-y-auto md:overflow-visible md:h-auto h-full">
           <h1 className="text-center font-bold text-xl mb-3 ml-25">
             Contact Us
@@ -130,7 +130,7 @@ export default function Form() {
             <div className="grid grid-cols-2 gap-4 ml-5 mt-2">
               {/* Columna izquierda: Interests */}
               <div>
-                <h2 className="text-md font-bold mb-2">I'm interested in:</h2>
+                <h2 className="text-md font-bold mb-2">I&apos;m interested in:</h2>
                 <div className="flex flex-col gap-3">
                   {interests.map((interest, idx) => (
                     <label
@@ -220,6 +220,7 @@ export default function Form() {
                     allowFullScreen
                     referrerPolicy="no-referrer-when-downgrade"
                     className="w-full h-28"
+                    title="Lynx3PL Location"
                   ></iframe>
                 </div>
               </div>
@@ -232,7 +233,7 @@ export default function Form() {
 
   // 💻 Desktop Layout
   return (
-    <section className="px-20 pt-0 h-screen flex items-center justify-center">
+    <section id="form" className="px-20 pt-0 h-screen flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-6xl grid grid-cols-4 gap-5"
@@ -284,7 +285,7 @@ export default function Form() {
                   business day.
                 </p>{" "}
                 <p>
-                  <span className="font-bold">Important:</span> If you don't hear
+                  <span className="font-bold">Important:</span> If you don&apos;t hear
                   from us within 1–2 days, there may have been a technical issue
                   with your submission. Please email us directly at
                   info@lynx3pl.com to ensure we received your message.
@@ -317,7 +318,7 @@ export default function Form() {
 
         {/* Columna 3: Interests */}
         <div>
-          <h2 className="text-xl font-bold mb-4">I'm interested in:</h2>
+          <h2 className="text-xl font-bold mb-4">I&apos;m interested in:</h2>
           <div className="flex flex-col gap-[9.6px]">
             {interests.map((interest, idx) => (
               <label
@@ -366,6 +367,7 @@ export default function Form() {
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
+              title="Lynx3PL Location"
             ></iframe>
           </div>
         </div>

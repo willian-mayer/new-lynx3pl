@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Subscription() {
   const [name, setName] = useState("");
@@ -41,11 +42,16 @@ export default function Subscription() {
     <div className="min-h-screen flex flex-col md:flex-row w-full">
       {/* Left Image */}
       <div className="md:w-1/2 w-full pt-20 md:pt-0 md:p-24 bg-gray-50 lg:pl-50">
-        <img
-          src="/subscribe/photo.jpg"
-          alt="Newsletter illustration"
-          className="object-cover w-full h-full rounded-xl p-5"
-        />
+        <div className="relative w-full h-full rounded-xl p-5">
+          <Image
+            src="/subscribe/photo.jpg"
+            alt="Newsletter illustration"
+            fill
+            className="object-cover rounded-xl"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
+        </div>
       </div>
 
       {/* Right Content */}
@@ -111,7 +117,7 @@ export default function Subscription() {
                 Thank you for joining! 🎉
               </h2>
               <p className="text-gray-700 text-center">
-                You’ll now receive the latest updates from us.
+                You&apos;ll now receive the latest updates from us.
               </p>
             </motion.div>
           )}

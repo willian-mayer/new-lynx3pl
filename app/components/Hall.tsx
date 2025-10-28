@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import data from "../data/hall.json";
 
 export default function Hall() {
@@ -11,7 +12,7 @@ export default function Hall() {
     <section
       ref={ref}
       className="
-         md:px-10 
+        md:px-10 
         py-10 
         min-h-screen 
         flex flex-col 
@@ -23,7 +24,7 @@ export default function Hall() {
     >
       {/* Title */}
       <motion.h2
-        className="text-2xl md:text-[1.55em] font-bold mb-10 mx-23 text-left "
+        className="text-2xl md:text-[1.55em] font-bold mb-10 mx-23 text-left"
         initial={{ opacity: 0, y: -20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
@@ -32,16 +33,23 @@ export default function Hall() {
       </motion.h2>
 
       {/* Image + Button */}
-      <div className="relative w-full ">
+      <div className="relative w-full">
         {/* Image */}
-        <motion.img
-          src={imgUrl}
-          alt="Hall Image"
-          className="w-full h-auto md:rounded-xl shadow-md md:max-w-4xl md:mx-auto"
+        <motion.div
+          className="relative w-full h-auto aspect-[16/9] md:rounded-xl shadow-md md:max-w-4xl md:mx-auto overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-        />
+        >
+          <Image
+            src={imgUrl || "/placeholder.png"}
+            alt="Hall Image"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 896px"
+            priority
+          />
+        </motion.div>
 
         {/* Button over image */}
         <motion.a

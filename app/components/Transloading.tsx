@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 import transloadingData from "../data/transloading.json";
 
 export default function Transloading() {
@@ -44,8 +45,8 @@ export default function Transloading() {
               </h3>
             </motion.div>
           ))}
-                    {/* Título solo en md+ */}
-
+          
+          {/* Título solo en md+ */}
           <motion.h2
             className="hidden md:block text-3xl font-bold text-black inter-bold md:ml-2 md:mt-10 md:mx-auto"
             initial={{ opacity: 0, y: -10 }}
@@ -54,42 +55,47 @@ export default function Transloading() {
           >
             {title}
           </motion.h2>
-
         </div>
 
         {/* Columna derecha: Imagen + Título + Botón (solo móvil) */}
         <div className="md:col-span-2 flex flex-col items-center md:items-start gap-1 md:gap-15">
           {/* Imagen */}
-          <motion.img
-            src={imgUl}
-            alt={title}
+          <motion.div
             className="
+              relative
               h-[120px]
               w-[480px]
               md:w-full
-              object-fill
-              md:h-[200px] lg:object-cover
-              object-center
+              md:h-[200px]
               md:rounded-xl
+              overflow-hidden
             "
             initial={{ opacity: 0, scale: 0.95 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6 }}
-          />
+          >
+            <Image
+              src={imgUl || '/placeholder.png'}
+              alt={title}
+              fill
+              className="object-cover md:object-cover object-center"
+              sizes="(max-width: 768px) 480px, 66vw"
+              priority
+            />
+          </motion.div>
 
           {/* Botón solo en md+ */}
           <div className="mx-20">
-          <motion.a
-            href="#form"
-            className="hidden md:block mt-4 bg-[#045804] text-white py-2 rounded-xl font-medium hover:bg-gray-800 transition text-xs md:mt-30 w-50 md:pl-4"
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: whyUs.length * 0.1 }}
-          >
-            Contact Us for a Custom Quote​
-          </motion.a>
+            <motion.a
+              href="#form"
+              className="hidden md:block mt-4 bg-[#045804] text-white py-2 rounded-xl font-medium hover:bg-gray-800 transition text-xs md:mt-30 w-50 md:pl-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: whyUs.length * 0.1 }}
+            >
+              Contact Us for a Custom Quote
+            </motion.a>
           </div>
-
 
           {/* Botón solo en móvil */}
           <motion.a
@@ -98,9 +104,8 @@ export default function Transloading() {
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: whyUs.length * 0.1 }}
-            
           >
-            Contact Us for a Custom Quote​
+            Contact Us for a Custom Quote
           </motion.a>
         </div>
       </div>

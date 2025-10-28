@@ -1,6 +1,7 @@
 "use client"
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import galleryData from "../data/gallery.json";
 
 export default function Gallery() {
@@ -8,7 +9,7 @@ export default function Gallery() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -17,7 +18,7 @@ export default function Gallery() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1 },
   };
@@ -37,34 +38,46 @@ export default function Gallery() {
         >
           {/* Fila 1 */}
           {images.slice(0, 3).map((img, i) => (
-            <motion.img
+            <motion.div
               key={i}
-              src={img.imgUrl}
-              alt={`Gallery ${i + 1}`}
-              className="w-full h-72 object-cover shadow-md rounded-xl"
+              className="relative w-full h-72 shadow-md rounded-xl overflow-hidden"
               variants={itemVariants}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
+              transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
+            >
+              <Image
+                src={img.imgUrl || '/placeholder.png'}
+                alt={`Gallery ${i + 1}`}
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 33vw, 0px"
+              />
+            </motion.div>
           ))}
 
           {/* Fila 2 */}
           {images.slice(3, 5).map((img, i) => (
-            <motion.img
+            <motion.div
               key={i + 3}
-              src={img.imgUrl}
-              alt={`Gallery ${i + 4}`}
-              className="w-full h-72 object-cover shadow-md rounded-xl"
+              className="relative w-full h-72 shadow-md rounded-xl overflow-hidden"
               variants={itemVariants}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
+              transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
+            >
+              <Image
+                src={img.imgUrl || '/placeholder.png'}
+                alt={`Gallery ${i + 4}`}
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 33vw, 0px"
+              />
+            </motion.div>
           ))}
 
           <motion.div
             className="flex items-center justify-center rounded-xl text-left bg-[#404040] text-white pl-6"
             variants={itemVariants}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
           >
-            <p className="text-sm md:text-[1.1em] font-medium inter-medium  mx-9 mr-15">
+            <p className="text-sm md:text-[1.1em] font-medium inter-medium mx-9 mr-15">
               {desc}
             </p>
           </motion.div>
@@ -77,18 +90,26 @@ export default function Gallery() {
           animate={inView ? "visible" : "hidden"}
           variants={containerVariants}
         >
-          <motion.img
-            src="/gallery/gallery-small-new.png"
-            alt="Gallery"
-            className="w-auto h-90 max-w-sm rounded-xl shadow-md object-cover"
+          <motion.div
+            className="relative w-auto h-90 max-w-sm rounded-xl shadow-md overflow-hidden"
             variants={itemVariants}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          />
+            transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
+          >
+            <Image
+              src="/gallery/gallery-small-new.png"
+              alt="Gallery"
+              width={384}
+              height={360}
+              className="object-cover rounded-xl"
+              sizes="(max-width: 767px) 384px, 0px"
+              priority
+            />
+          </motion.div>
 
           <motion.p
             className="text-left text-base font-medium inter mx-10 pl-2 mr-11"
             variants={itemVariants}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: [0.6, 0.05, 0.01, 0.9] }}
           >
             We offer choices of{" "}
             <span className="font-bold">real-time inventory</span> management

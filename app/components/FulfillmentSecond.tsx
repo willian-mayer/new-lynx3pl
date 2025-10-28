@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 import data from "../data/fulfillmentSecond.json";
 
 export default function FulfillmentSecond() {
@@ -18,29 +19,33 @@ export default function FulfillmentSecond() {
         <div className="flex flex-col md:flex-row items-center md:items-start md:mb-27 gap-3">
           
           {/* Imagen (segundo en móvil, primero en escritorio) */}
-<div className="flex justify-center items-center overflow-hidden md:h-[180px] md:w-[400px] h-[100px] order-2 md:order-1 ">
-  <motion.picture
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={inView ? { opacity: 1, scale: 1 } : {}}
-    transition={{ duration: 0.6 }}
-  >
-    <source
-      media="(min-width: 768px)"
-      srcSet="/fulfillmentSecond/image-md.jpg"
-    />
-    <img
-      src="/fulfillmentSecond/image.jpg"
-      alt="Fulfillment Service"
-      className="
-        md:h-[180px]
-        object-cover 
-        md:object-[center]
-        md:w-
-      "
-    />
-  </motion.picture>
-</div>
-
+          <div className="flex justify-center items-center overflow-hidden md:h-[180px] md:w-[400px] h-[100px] order-2 md:order-1 relative">
+            <motion.div
+              className="relative w-full h-full"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={inView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.6 }}
+            >
+              {/* Imagen para Desktop */}
+              <Image
+                src="/fulfillmentSecond/image-md.jpg"
+                alt="Fulfillment Service"
+                fill
+                className="hidden md:block object-cover object-center"
+                sizes="(min-width: 768px) 400px, 0px"
+                priority
+              />
+              {/* Imagen para Mobile */}
+              <Image
+                src="/fulfillmentSecond/image.jpg"
+                alt="Fulfillment Service"
+                fill
+                className="block md:hidden object-cover"
+                sizes="(max-width: 767px) 100vw, 0px"
+                priority
+              />
+            </motion.div>
+          </div>
 
           {/* Texto (primero en móvil, segundo en escritorio) */}
           <div className="order-1 md:order-2">
@@ -82,34 +87,29 @@ export default function FulfillmentSecond() {
                   </span>
                 </h4>
               </motion.div>
-              
             ))}
-                            {/* El párrafo para pantallas md+ */}
-      <motion.p
-        className="hidden md:block absolute bottom-8 text-[0.9em] font-bold text-left leading-snug mr-46 mb-20"
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        {desc}
-      </motion.p>
+            
+            {/* El párrafo para pantallas md+ */}
+            <motion.p
+              className="hidden md:block absolute bottom-8 text-[0.9em] font-bold text-left leading-snug mr-46 mb-20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {desc}
+            </motion.p>
           </div>
-
         </div>
       </div>
 
-
-
       {/* Ajuste específico para Surface Duo / pantallas intermedias */}
-      <style>
-        {`
-          @media (min-width: 540px) and (max-width: 720px) {
-            .surface-duo-img {
-              max-width: 50% !important;
-            }
+      <style jsx>{`
+        @media (min-width: 540px) and (max-width: 720px) {
+          .surface-duo-img {
+            max-width: 50% !important;
           }
-        `}
-      </style>
+        }
+      `}</style>
     </section>
   );
 }

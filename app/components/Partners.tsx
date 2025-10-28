@@ -1,7 +1,8 @@
 "use client"
 import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
+import Image from "next/image";
 import data from "../data/partners.json";
 
 const Partners: React.FC = () => {
@@ -10,15 +11,29 @@ const Partners: React.FC = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
-  // Variants
-  const fadeUpVariant = {
+  // Variants con el tipo correcto
+  const fadeUpVariant: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] // ease como array
+      } 
+    },
   };
 
-  const fadeDownVariant = {
+  const fadeDownVariant: Variants = {
     hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] 
+      } 
+    },
   };
 
   return (
@@ -36,15 +51,22 @@ const Partners: React.FC = () => {
               {title}
             </motion.h2>
 
-            {/* Imagen principal */}
-            <motion.img
-              src="/partners/main-logo-new.png"
-              alt="Main Partner Logo"
-              className="w-80 h-80 object-contain"
+            {/* Imagen principal con Next.js Image */}
+            <motion.div
               variants={fadeDownVariant}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-            />
+              className="relative w-80 h-80"
+            >
+              <Image
+                src="/partners/main-logo-new.png"
+                alt="Main Partner Logo"
+                fill
+                className="object-contain"
+                sizes="320px"
+                priority
+              />
+            </motion.div>
           </div>
         ) : (
           <div className="w-full max-w-5xl flex flex-col-reverse items-center gap-10">
@@ -57,44 +79,59 @@ const Partners: React.FC = () => {
               {title}
             </motion.h2>
 
-            <motion.img
-              src="/partners/main-logo-new.png"
-              alt="Main Partner Logo"
-              className="w-55 h-55 object-contain"
+            <motion.div
               variants={fadeDownVariant}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-            />
+              className="relative w-[220px] h-[220px]"
+            >
+              <Image
+                src="/partners/main-logo-new.png"
+                alt="Main Partner Logo"
+                fill
+                className="object-contain"
+                sizes="220px"
+                priority
+              />
+            </motion.div>
           </div>
         )}
 
         {/* Partner Logos */}
         {/* Mobile */}
         <motion.div
-          className="w-full flex flex-wrap justify-end items-end gap-3 md:hidden p-5 bg-white rounded-xl"
+          className="w-full flex flex-wrap justify-end items-end gap-3 md:hidden p-5 bg-white rounded-xl relative"
           variants={fadeUpVariant}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          <img
-            src="/partners/new-logos-small.png"
-            alt="Partners Logos"
-            className="w-full h-auto object-contain max-w-6xl"
-          />
+          <div className="relative w-full h-auto aspect-[16/9]">
+            <Image
+              src="/partners/new-logos-small.png"
+              alt="Partners Logos"
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 0px"
+            />
+          </div>
         </motion.div>
 
         {/* Desktop */}
         <motion.div
-          className="hidden md:flex w-full justify-center mt-10 md:mt-5 md:p-5 bg-white rounded-xl"
+          className="hidden md:flex w-full justify-center mt-10 md:mt-5 md:p-5 bg-white rounded-xl relative"
           variants={fadeUpVariant}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
         >
-          <img
-            src="/partners/new-logos-md.png"
-            alt="Partners Logos"
-            className="w-full h-auto object-contain max-w-6xl"
-          />
+          <div className="relative w-full h-auto aspect-[16/9] max-w-6xl">
+            <Image
+              src="/partners/new-logos-md.png"
+              alt="Partners Logos"
+              fill
+              className="object-contain"
+              sizes="(min-width: 768px) 1152px, 0px"
+            />
+          </div>
         </motion.div>
       </div>
     </section>

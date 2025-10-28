@@ -1,5 +1,7 @@
+"use client"
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function WatchUs() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -9,10 +11,13 @@ export default function WatchUs() {
       <section className="h-screen grid grid-cols-3 grid-rows-3 font-bold text-3xl md:text-5xl tracking-tight">
         {/* Imagen: columnas 1 y 2 */}
         <div className="col-span-2 row-span-3 relative">
-          <img
+          <Image
             src="/watchus/image.JPG"
             alt="Watch Us"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="66vw"
+            priority
           />
 
           {/* Textos izquierda */}
@@ -97,13 +102,15 @@ export default function WatchUs() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
           <div className="relative w-full max-w-4xl aspect-video">
-            <iframe
+            <video
               className="w-full h-full rounded-lg"
               src="/watchus/Lynx3PL.mp4"
               title="Watch Us Video"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            ></iframe>
+              controls
+              autoPlay
+            >
+              Your browser does not support the video tag.
+            </video>
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute -top-4 right-0 text-white text-3xl font-bold px-4"

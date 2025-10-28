@@ -1,6 +1,6 @@
 "use client"
 import { Star } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 import heroData from "../data/hero.json";
@@ -30,15 +30,30 @@ export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(heroRef, { once: true, margin: "-100px" });
 
-  // Variants para h1 y div inferior
-  const headingVariant = {
+  // Variants con tipos correctos
+  const headingVariant: Variants = {
     hidden: { opacity: 0, y: -40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] 
+      } 
+    },
   };
 
-  const bottomVariant = {
+  const bottomVariant: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.3 } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.3 
+      } 
+    },
   };
 
   return (
@@ -71,9 +86,7 @@ export default function Hero() {
         variants={bottomVariant}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="
-          grid grid-cols-2 items-end justify-between gap-4 pb-12 w-full px-3 md:pb-10
-        "
+        className="grid grid-cols-2 items-end justify-between gap-4 pb-12 w-full px-3 md:pb-10"
       >
         {/* Review a la izquierda */}
         <div className="justify-self-start flex flex-col items-center justify-center text-xs sm:text-sm md:text-lg lg:text-xl rounded-md">
@@ -88,18 +101,14 @@ export default function Hero() {
             ))}
           </div>
           <p className="text-black text-md sm:text-2xl leading-snug text-center whitespace-nowrap font-medium">
-            Client's reviews
+            Client&apos;s reviews
           </p>
         </div>
 
         {/* Botón a la derecha */}
         <a
           href="#form"
-          className="
-            justify-self-end bg-black text-white px-4 py-1.5 sm:px-5 sm:py-2
-            md:px-6 md:py-3 text-md sm:text-sm md:text-lg
-            hover:bg-gray-900 font-bold transition flex items-center justify-center rounded-full whitespace-nowrap mb-[10px]
-          "
+          className="justify-self-end bg-black text-white px-4 py-1.5 sm:px-5 sm:py-2 md:px-6 md:py-3 text-md sm:text-sm md:text-lg hover:bg-gray-900 font-bold transition flex items-center justify-center rounded-full whitespace-nowrap mb-[10px]"
         >
           {contact.title}
         </a>

@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import Image from "next/image";
 import warehousingList from "../data/warehousinglist.json";
 
 export default function WarehousingList() {
@@ -18,39 +19,47 @@ export default function WarehousingList() {
           lg:grid lg:grid-rows-[auto_1fr] lg:grid-cols-1 gap-2 lg:mx-24
         "
       >
-        {/* Imagen */}
-{/* Imagen responsive por tamaño de pantalla */}
-<div className="flex items-center justify-center lg:mb-0 lg:col-span-1">
-  <motion.picture
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={inView ? { opacity: 1, scale: 1 } : {}}
-    transition={{ duration: 0.6 }}
-  >
-    <source
-      media="(min-width: 768px)"
-      srcSet="/warehousing/warehouse2.jpg"
-    />
-    <img
-      src="/warehousing/warehouse.jpg"
-      alt="Warehousing"
-      className="w-full max-h-[360px] object-cover object-bottom md:mt-20 rounded-xl"
-    />
-  </motion.picture>
-</div>
-
+        {/* Imagen responsive por tamaño de pantalla */}
+        <div className="flex items-center justify-center lg:mb-0 lg:col-span-1 w-full">
+          <motion.div
+            className="relative w-full max-h-[360px] h-[360px] md:mt-20 rounded-xl overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Imagen para Desktop */}
+            <Image
+              src="/warehousing/warehouse2.jpg"
+              alt="Warehousing"
+              fill
+              className="hidden md:block object-cover object-bottom"
+              sizes="(min-width: 768px) 100vw, 0px"
+              priority
+            />
+            {/* Imagen para Mobile */}
+            <Image
+              src="/warehousing/warehouse.jpg"
+              alt="Warehousing"
+              fill
+              className="block md:hidden object-cover object-bottom"
+              sizes="(max-width: 767px) 100vw, 0px"
+              priority
+            />
+          </motion.div>
+        </div>
 
         {/* Lista */}
         <div
           className="
-    grid grid-cols-1 
-    px-2
-    border-3 border-green-900
-    w-[calc(100%-1.5rem)]    /* ancho reducido = 100% - 16px */
-    md:w-full
-    md:border-0
-    p-2
-    m-3
-  "
+            grid grid-cols-1 
+            px-2
+            border-3 border-green-900
+            w-[calc(100%-1.5rem)]
+            md:w-full
+            md:border-0
+            p-2
+            m-3
+          "
         >
           {warehousingList.map((item, index) => (
             <motion.div

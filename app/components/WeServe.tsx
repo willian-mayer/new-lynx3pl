@@ -1,7 +1,8 @@
 "use client"
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
+import Image from "next/image";
 import data from "../data/weserve.json";
 
 const WeServe = () => {
@@ -10,25 +11,56 @@ const WeServe = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
-  // Variants
-  const headingVariant = {
+  // Variants con tipos correctos
+  const headingVariant: Variants = {
     hidden: { opacity: 0, y: -40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] 
+      } 
+    },
   };
 
-  const listLeftVariant = {
+  const listLeftVariant: Variants = {
     hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.2 } },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.2 
+      } 
+    },
   };
 
-  const listRightVariant = {
+  const listRightVariant: Variants = {
     hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.3 } },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.3 
+      } 
+    },
   };
 
-  const imageVariant = {
+  const imageVariant: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut", delay: 0.25 } },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.25 
+      } 
+    },
   };
 
   return (
@@ -70,12 +102,16 @@ const WeServe = () => {
               variants={imageVariant}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-              className="flex justify-center items-center"
+              className="flex justify-center items-center relative max-h-72 md:max-h-full px-4"
             >
-              <img
+              <Image
                 src="/weserve/image.jpg"
                 alt="We serve"
-                className="object-cover max-h-72 md:max-h-full px-4"
+                width={400}
+                height={600}
+                className="object-cover max-h-72 md:max-h-full w-auto h-auto"
+                sizes="(min-width: 768px) 400px, 300px"
+                priority
               />
             </motion.div>
 
@@ -105,14 +141,22 @@ const WeServe = () => {
           </motion.h2>
 
           {/* Mobile Image */}
-          <motion.img
-            src="/weserve/image.jpg"
-            alt="We serve"
-            className="w-auto h-68 object-cover mb-6"
+          <motion.div
             variants={imageVariant}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-          />
+            className="relative w-auto h-68 mb-6"
+          >
+            <Image
+              src="/weserve/image.jpg"
+              alt="We serve"
+              width={300}
+              height={272}
+              className="object-cover"
+              sizes="(max-width: 767px) 300px, 0px"
+              priority
+            />
+          </motion.div>
 
           <div className="grid grid-cols-2 gap-7 w-full justify-center">
             {/* Left */}

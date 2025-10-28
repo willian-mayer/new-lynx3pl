@@ -2,6 +2,7 @@
 import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import Image from "next/image";
 import data from "../data/reviews.json";
 
 export default function Reviews() {
@@ -42,17 +43,29 @@ export default function Reviews() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          {/* Imagen */}
-          <img
-            src="/review/quote-new.png"
-            alt="Quote Mobile"
-            className="block md:hidden w-auto object-contain h-36 mb-1 mr-25"
-          />
-          <img
-            src="/review/quote-md.png"
-            alt="Quote Desktop"
-            className="hidden md:block w-full object-contain"
-          />
+          {/* Imagen Mobile */}
+          <div className="block md:hidden relative w-auto h-36 mb-1 mr-25">
+            <Image
+              src="/review/quote-new.png"
+              alt="Quote Mobile"
+              width={300}
+              height={144}
+              className="object-contain"
+              sizes="300px"
+            />
+          </div>
+          
+          {/* Imagen Desktop */}
+          <div className="hidden md:block relative w-full h-auto aspect-[16/9]">
+            <Image
+              src="/review/quote-md.png"
+              alt="Quote Desktop"
+              fill
+              className="object-contain"
+              sizes="(min-width: 768px) 60vw, 0px"
+            />
+          </div>
+          
           {/* Autor */}
           <p className="text-[0.65em] text-red-700 font-semibold text-center md:text-right ml-32 mb-4 md:ml-25 md:text-xl">
             — {mainReview.author}, {mainReview.country} ({mainReview.year})
@@ -72,7 +85,7 @@ export default function Reviews() {
               <div className="flex items-start mr-3 md:mr-0 md:ml-7">
                 <div className="flex mr-2 mb-1">{renderStars(r.stars)}</div>
                 <p className="text-black text-[0.55em] md:text-[0.85em] font-semibold mb-4">
-                  “{r.review}”
+                  &quot;{r.review}&quot;
                 </p>
               </div>
               <p className="text-[0.55em] lg:text-[0.8em] text-red-700 font-semibold mr-8 pl-14 md:ml-15 md:mr-30 ">

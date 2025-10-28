@@ -1,7 +1,8 @@
 "use client"
 import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
+import Image from "next/image";
 import data from "../data/storage.json";
 
 const Storage: React.FC = () => {
@@ -10,30 +11,68 @@ const Storage: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  // Variants
-  const textVariant = {
+  // Variants con tipos correctos
+  const textVariant: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] 
+      } 
+    },
   };
 
-  const imageVariant = (delay = 0) => ({
+  const imageVariant = (delay = 0): Variants => ({
     hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut", delay } },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay 
+      } 
+    },
   });
 
-  const mobileImageTopVariant = {
+  const mobileImageTopVariant: Variants = {
     hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9] 
+      } 
+    },
   };
 
-  const mobileImageBottomVariant = {
+  const mobileImageBottomVariant: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.2 } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.2 
+      } 
+    },
   };
 
-  const mobileTextVariant = {
+  const mobileTextVariant: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.1 } },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.6, 0.05, 0.01, 0.9], 
+        delay: 0.1 
+      } 
+    },
   };
 
   return (
@@ -54,44 +93,62 @@ const Storage: React.FC = () => {
           {/* Imágenes fila 1 */}
           <div className="col-span-4 row-span-1 grid grid-cols-3 gap-5 mt-12">
             {desktop.slice(0, 3).map((img, i) => (
-              <motion.img
+              <motion.div
                 key={i}
-                src={img.imageUrl}
-                alt={`Storage ${i + 1}`}
-                className="w-full h-full object-contain mt-1"
+                className="relative w-full h-full mt-1"
                 variants={imageVariant(i * 0.2)}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
-              />
+              >
+                <Image
+                  src={img.imageUrl || '/placeholder.png'}
+                  alt={`Storage ${i + 1}`}
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1024px) 25vw, 0px"
+                />
+              </motion.div>
             ))}
           </div>
 
           {/* Imágenes fila 2 */}
           <div className="col-span-4 row-span-1 grid grid-cols-3 gap-5 mb-12">
             {desktop.slice(3, 6).map((img, i) => (
-              <motion.img
+              <motion.div
                 key={i + 3}
-                src={img.imageUrl}
-                alt={`Storage ${i + 4}`}
-                className="w-full h-full object-contain"
+                className="relative w-full h-full"
                 variants={imageVariant(i * 0.2)}
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
-              />
+              >
+                <Image
+                  src={img.imageUrl || '/placeholder.png'}
+                  alt={`Storage ${i + 4}`}
+                  fill
+                  className="object-contain"
+                  sizes="(min-width: 1024px) 25vw, 0px"
+                />
+              </motion.div>
             ))}
           </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-between min-h-screen">
           {/* Imagen top */}
-          <motion.img
-            src={smartphone[0].imageTop}
-            alt="Storage top"
-            className="w-full max-h-40 object-contain mt-20"
+          <motion.div
+            className="relative w-full h-40 mt-20"
             variants={mobileImageTopVariant}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-          />
+          >
+            <Image
+              src={smartphone[0]?.imageTop || '/placeholder.png'}
+              alt="Storage top"
+              fill
+              className="object-contain"
+              sizes="(max-width: 1023px) 100vw, 0px"
+            />
+          </motion.div>
 
           {/* Texto central */}
           <motion.div
@@ -109,14 +166,20 @@ const Storage: React.FC = () => {
           </motion.div>
 
           {/* Imagen bottom */}
-          <motion.img
-            src={smartphone[1].imageBottom}
-            alt="Storage bottom"
-            className="w-full object-contain pb-5"
+          <motion.div
+            className="relative w-full h-auto aspect-[16/9] pb-5"
             variants={mobileImageBottomVariant}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-          />
+          >
+            <Image
+              src={smartphone[1]?.imageBottom || '/placeholder.png'}
+              alt="Storage bottom"
+              fill
+              className="object-contain"
+              sizes="(max-width: 1023px) 100vw, 0px"
+            />
+          </motion.div>
         </div>
       )}
     </section>
